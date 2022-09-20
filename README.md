@@ -11,13 +11,13 @@ It uses a custom made lexer,
 and will in the future use LLVM to compile to native code.  
 
 ## FAQ
+
+  Q:  Why is it named mort?  
+  A:  Don't worry about it.  
 ---
-Q:  Why is it named mort?  
-A:  Don't worry about it.  
+  Q:  Why are you making it?  
+  A:  I am making it for fun, and to learn something new.  
 ---
-Q:  Why are you making it?  
-A:  I am making it for fun, and to learn something new.  
----
-Q:  Where did it all begin?  
-A:  This all began by me starting to watch the series Tsoding made out making porth, and I followed along, but then I found out about jai, and odin, and after watching a bunch of Jon's videos, I wanted to try making my own... and so I did. I started off in Rust, but quickly switched over to C++ for more control.  
+  Q:  Where did it all begin?  
+  A:  This all began by me starting to watch the series Tsoding made out making porth, and I followed along, but then I found out about jai, and odin, and after watching a bunch of Jon's videos, I wanted to try making my own... and so I did. I started off in Rust, but quickly switched over to C++ for more control.  
 ---
