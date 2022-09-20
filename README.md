@@ -11,7 +11,7 @@ It uses a custom made lexer,
 and will in the future use LLVM to compile to native code.  
 
 ## FAQ
-
+Some frequently asked questions, and some I came up on my own, to avoid having to answer questions.
   Q:  Why is it named mort?  
   A:  Don't worry about it.  
 ---
