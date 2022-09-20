@@ -1,4 +1,4 @@
-#include "parser.hpp"
+#include "lex_parser.hpp"
 
 #include "lexer.hpp"
 #include <iostream>
@@ -7,16 +7,16 @@
 #include <regex>
 #include <cassert>
 
-std::vector<Parser::Token> Parser::parse_lex_tokens(std::vector<Lexer::Token> l_tokens)
+std::vector<LexParser::Token> LexParser::parse_lex_tokens(std::vector<Lexer::Token> l_tokens)
 {
-    std::vector<Parser::Token> p_token;
+    std::vector<LexParser::Token> p_token;
 
     for (Lexer::Token l_token : l_tokens) {
         std::string str = l_token.str;
         uint32_t col = l_token.col;
         uint32_t line = l_token.line;
 
-        Parser::Token tok = Parser::new_token(none, str, col, line);
+        LexParser::Token tok = LexParser::new_token(none, str, col, line);
 
         // I did it this way because for some reason
         // C++ does not support strings in switch statements
@@ -129,7 +129,7 @@ std::vector<Parser::Token> Parser::parse_lex_tokens(std::vector<Lexer::Token> l_
                     std::cout << "Invalid token: " << str << " - first char of label can't be number\n";
                     exit(1);
                 }
-                tok.type = label;
+                tok.type = identifier;
             }
             else {
                 std::cout << "Invalid token: '" << str << "' at col: " << col << " line: " << line << "\n";
@@ -143,9 +143,9 @@ std::vector<Parser::Token> Parser::parse_lex_tokens(std::vector<Lexer::Token> l_
     return p_token;
 }
 
-Parser::Token Parser::new_token(Parser::TokenType type, std::string val, uint32_t col, uint32_t line)
+LexParser::Token LexParser::new_token(LexParser::TokenType type, std::string val, uint32_t col, uint32_t line)
 {
-    Parser::Token token;
+    LexParser::Token token;
     token.type = type;
     token.val = val;
     token.col = col;

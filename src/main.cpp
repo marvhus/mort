@@ -4,8 +4,8 @@
 #include <cassert>
 #include <vector>
 
-#include "lexer.hpp"
-#include "parser.hpp"
+#include "lexer/lexer.hpp"
+#include "lexer/lex_parser.hpp"
 
 std::string read_file(const char* path)
 {
@@ -35,9 +35,9 @@ void print_tokens(std::vector<Lexer::Token> tokens)
                   << "\n";
     }
 }
-void print_tokens(std::vector<Parser::Token> tokens) {
+void print_tokens(std::vector<LexParser::Token> tokens) {
     std::cout << "Parser tokens\n";
-    for (Parser::Token token : tokens) {
+    for (LexParser::Token token : tokens) {
         std::string padding (10 - token.val.length(), ' ') ;
         std::cout << token.type
                   << "\t- val: "
@@ -60,7 +60,7 @@ int main(int argc, char** argv)
     std::vector<Lexer::Token> l_tokens = Lexer::lex_file(contents);
     //print_tokens(l_tokens);
 
-    std::vector<Parser::Token> p_tokens = Parser::parse_lex_tokens(l_tokens);
+    std::vector<LexParser::Token> p_tokens = LexParser::parse_lex_tokens(l_tokens);
     print_tokens(p_tokens);
 
     return 0;

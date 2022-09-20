@@ -1,14 +1,14 @@
-#ifndef PARSER_H_
-#define PARSER_H_
+#ifndef LEX_PARSER_H_
+#define LEX_PARSER_H_
 
 #include "lexer.hpp"
 #include <stdint.h>
 #include <vector>
 
-class Parser {
+class LexParser {
     public:
         enum TokenType {
-            label,    // TODO: figure out a better name
+            identifier,    // TODO: figure out a better name
 
             number,   // ... numbers
                       // TODO: add more stuff like strings etc
@@ -64,13 +64,13 @@ class Parser {
             uint32_t col;
             uint32_t line;
         } Token;
-        static std::vector<Parser::Token> parse_lex_tokens(std::vector<Lexer::Token> l_tokens);
+        static std::vector<LexParser::Token> parse_lex_tokens(std::vector<Lexer::Token> l_tokens);
     private:
-        static Parser::Token new_token(
-            Parser::TokenType type,
+        static LexParser::Token new_token(
+            LexParser::TokenType type,
             std::string val,
             uint32_t col,
             uint32_t line);
 };
 
-#endif // PARSER_H_
+#endif // LEX_PARSER_H_
