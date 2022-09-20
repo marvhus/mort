@@ -58,7 +58,7 @@ int main(int argc, char** argv)
     std::string contents = read_file(argv[1]);
     // std::cout << contents << std::endl;
     std::vector<Lexer::Token> l_tokens = Lexer::lex_file(contents);
-    print_tokens(l_tokens);
+    //print_tokens(l_tokens);
 
     std::vector<Parser::Token> p_tokens = Parser::parse_lex_tokens(l_tokens);
     print_tokens(p_tokens);

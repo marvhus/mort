@@ -44,56 +44,33 @@ std::vector<std::string> Lexer::split_lines(std::string file) {
 }
 
 void Lexer::lex_substring(std::vector<Lexer::Token>* tokens, std::string str, size_t prev) {
-    enum Status {letter, number, none};
+    enum Status {text, none};
     Status s = none;
     //std::cout << "Looping over\n";
     std::string buff = "";
     size_t offset = 0;
-    bool first = true;
-    Status lastStatus = s;
+    bool skip_next = false;
     for (char c : str) {
-        if (lastStatus != s) {
-            first = true;
+        if (skip_next) {
+            skip_next = false;
+            continue;
         }
-        // is letter or number or _
-        if (
-           ((c >= 'a' && c <= 'z')
+        // Text
+        if ((c >= 'a' && c <= 'z')
          || (c >= 'A' && c <= 'Z')
-         //|| (c >= '0' && c <= '9') // temporarely disabled
-         || (c == '_'))
-         && s != number
+         || (c >= '0' && c <= '9')
+         || (c == '_')
+         || (c == '.')
         ) {
-            // TODO: find a way to warn if label contains a number
-            // is first number
-            if (c >= '0' && c <= '9' && first) {
-                buff += c;
-                s = number;
-                first = false;
-                offset++;
-                continue;
-            }
             //std::cout << "letter: " << c << "\n";
-            if (s != letter && buff != "") {
+            if (s != text && buff != "") {
                 tokens->push_back(Lexer::new_token(buff, prev+offset-buff.length(), 0));
                 buff = "";
             }
             buff += c;
-            s = letter;
-            first = false;
+            s = text;
         }
-        // is number
-        else if ((c >= '0' && c <= '9') || (c == '.')) {
-            //std::cout << "number: " << c << "\n";
-            if (s != number && buff != "") {
-                tokens->push_back(Lexer::new_token(buff, prev+offset-buff.length(), 0));
-                buff = "";
-            }
-            buff += c;
-            s = number;
-            first = false;
-        }
-        // is single letter symbol
-        // TODO: add more symbols
+        // Operators
         else if (
             c == '<'
          || c == '>'
@@ -104,10 +81,26 @@ void Lexer::lex_substring(std::vector<Lexer::Token>* tokens, std::string str, si
          || c == '-'
          || c == '!'
          || c == '^'
-         || c == ':'
+         || c == '/'
+        ) {
+            if (buff != "") {
+                tokens->push_back(Lexer::new_token(buff, prev+offset-buff.length(), 0));
+                buff = "";
+            }
+            std::string s (1, c);
+            // <=  >=  ==  &=  *=  +=  -=  !=  ^=  /=
+            if (str[offset+1] == '=') {
+                s += std::string(1, str[++offset]);
+                skip_next = true;
+            }
+            tokens->push_back(Lexer::new_token(s, prev+offset, 0));
+            s = none;
+        }
+        // Other
+        else if (
+            c == ':'
          || c == ';'
          || c == '"'
-         || c == '/'
          || c == '|'
          || c == '(' || c == ')'
          || c == '[' || c == ']'
@@ -121,7 +114,6 @@ void Lexer::lex_substring(std::vector<Lexer::Token>* tokens, std::string str, si
             std::string s (1, c);
             tokens->push_back(Lexer::new_token(s, prev+offset, 0));
             s = none;
-            first = false;
         }
 
         offset++;

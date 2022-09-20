@@ -28,9 +28,20 @@ class Parser {
             op_minus,    // -
             op_divide,   // /
             op_multiply, // *
-            op_equals,   // =
+            op_set,   // =
             op_greater,  // >
             op_less,     // <
+
+            op_less_equals,
+            op_greater_equals,
+            op_equals,
+            op_and_equals,
+            op_multiply_equals,
+            op_plus_equals,
+            op_minus_equals,
+            op_not_equals,
+            op_xor_equals,
+            op_divide_equals,
 
             // Punctuation
             semicolon,   // ;

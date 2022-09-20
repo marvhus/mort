@@ -88,15 +88,48 @@ std::vector<Parser::Token> Parser::parse_lex_tokens(std::vector<Lexer::Token> l_
         else if (str == "'") {
             tok.type = single_quote;
         }
+        else if (str == "<=") {
+            tok.type = op_less_equals;
+        }
+        else if (str == ">=") {
+            tok.type = op_greater_equals;
+        }
+        else if (str == "==") {
+            tok.type = op_equals;
+        }
+        else if (str == "&=") {
+            tok.type = op_and_equals;
+        }
+        else if (str == "*=") {
+            tok.type = op_multiply_equals;
+        }
+        else if (str == "+=") {
+            tok.type = op_plus_equals;
+        }
+        else if (str == "-=") {
+            tok.type = op_minus_equals;
+        }
+        else if (str == "!=") {
+            tok.type = op_not_equals;
+        }
+        else if (str == "^=") {
+            tok.type = op_xor_equals;
+        }
+        else if (str == "/=") {
+            tok.type = op_divide_equals;
+        }
         else {
-            // TODO: find a way to make sure label does not contain number
-            // is label
-            if (std::regex_match(str, std::regex("[a-zA-Z_]*"))) {
-                tok.type = label;
-            }
             // is float or int  (12321 or 231.1214)
-            else if (std::regex_match(str, std::regex("[0-9]*\\.?[0-9]*"))) {
+            if (std::regex_match(str, std::regex("[0-9]*\\.?[0-9]*"))) {
                 tok.type = number;
+            }
+            // is label
+            else if (std::regex_match(str, std::regex("[a-zA-Z0-9_]*"))) {
+                if (str[0] >= '0' && str[0] <= '9') {
+                    std::cout << "Invalid token: " << str << " - first char of label can't be number\n";
+                    exit(1);
+                }
+                tok.type = label;
             }
             else {
                 std::cout << "Invalid token: '" << str << "' at col: " << col << " line: " << line << "\n";
