@@ -1,11 +1,1 @@
-random :: () {
-  hello := 12;
-  world := 123.973;
-  stuff := "asda";
-  if 12 < 13 {
-    if 15 > 10 {
-       arr := [12]int{};
-    }
-  }
-  ptr := *hello;
-}
+random :: 12.34;
