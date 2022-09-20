@@ -59,10 +59,11 @@ void Lexer::lex_substring(std::vector<Lexer::Token>* tokens, std::string str, si
         if (
            ((c >= 'a' && c <= 'z')
          || (c >= 'A' && c <= 'Z')
-         || (c >= '0' && c <= '9') // temporarely disabled
+         //|| (c >= '0' && c <= '9') // temporarely disabled
          || (c == '_'))
          && s != number
         ) {
+            // TODO: find a way to warn if label contains a number
             // is first number
             if (c >= '0' && c <= '9' && first) {
                 buff += c;

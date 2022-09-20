@@ -89,18 +89,14 @@ std::vector<Parser::Token> Parser::parse_lex_tokens(std::vector<Lexer::Token> l_
             tok.type = single_quote;
         }
         else {
-            // is float or int  (12321 or 231.1214)
-            if (std::regex_match(str, std::regex("^[0-9]*\\.?[0-9]*"))) {
-                tok.type = number;
-            }
+            // TODO: find a way to make sure label does not contain number
             // is label
-            else if (std::regex_match(str, std::regex("^[a-zA-Z0-9_]*"))) {
-                // First char cant be a number
-                if ((str[0] >= '0' && str[0] <= '9') == true) {
-                    std::cout << "Invalid token: '" << str << " label can't start with number" << "\n";
-                    assert(false);
-                }
+            if (std::regex_match(str, std::regex("[a-zA-Z_]*"))) {
                 tok.type = label;
+            }
+            // is float or int  (12321 or 231.1214)
+            else if (std::regex_match(str, std::regex("[0-9]*\\.?[0-9]*"))) {
+                tok.type = number;
             }
             else {
                 std::cout << "Invalid token: '" << str << "' at col: " << col << " line: " << line << "\n";
