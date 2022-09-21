@@ -11,18 +11,48 @@ std::vector<LexParser::Token> LexParser::parse_lex_tokens(std::vector<Lexer::Tok
 {
     std::vector<LexParser::Token> p_token;
 
+    uint32_t comment_line = 0;
+    bool is_comment_line = 0;
+
+    bool is_block_comment = false;
+    uint32_t block_comment_count = 0;
+
     for (Lexer::Token l_token : l_tokens) {
         std::string str = l_token.str;
         uint32_t col = l_token.col;
         uint32_t line = l_token.line;
+
+        if (line == comment_line && is_comment_line) {
+            continue;
+        }
+        if (is_block_comment && block_comment_count > 0) {
+            if (str == "/*") {
+                block_comment_count++;
+            }
+            if (str == "*/") {
+                block_comment_count--;
+                is_block_comment = block_comment_count > 0;
+            }
+            continue;
+        }
 
         LexParser::Token tok = LexParser::new_token(none, str, col, line);
 
         // I did it this way because for some reason
         // C++ does not support strings in switch statements
 
+        if (str == "//") {
+            is_comment_line = true;
+            comment_line = line;
+            continue;
+        }
+        else if (str == "/*") {
+            is_block_comment = true;
+            block_comment_count++;
+            continue;
+        }
         // Scopes
-        if (str == "{") {
+        else if (str == "{") {
             tok.type = brace_start;
         }
         else if (str == "}") {
@@ -133,10 +163,13 @@ std::vector<LexParser::Token> LexParser::parse_lex_tokens(std::vector<Lexer::Tok
             }
             else {
                 std::cout << "Invalid token: '" << str << "' at col: " << col << " line: " << line << "\n";
+                exit(1);
             }
         }
-
-        assert(tok.type != none);
+        if (tok.type == none) {
+            std::cout << "Token type is none. str: '" << str << "' at col: " << col << " line: " << line << "\n";
+            exit(1);
+        }
         p_token.push_back(tok);
     }
 

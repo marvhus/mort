@@ -17,7 +17,7 @@ std::vector<Lexer::Token> Lexer::lex_file(std::string file) {
     while (i < line_count) {
         std::vector<Lexer::Token> line = Lexer::lex_line(lines[i]);
         for (Lexer::Token l : line) {
-            tokens.push_back(new_token(l.str, l.col, i));
+            tokens.push_back(new_token(l.str, l.col, i+1));
         }
         i++;
     }
@@ -69,6 +69,20 @@ void Lexer::lex_substring(std::vector<Lexer::Token>* tokens, std::string str, si
             }
             buff += c;
             s = text;
+        }
+        // Comments
+        else if (
+            (c == '/' && str[offset+1] == '/')
+         || (c == '/' && str[offset+1] == '*')
+         || (c == '*' && str[offset+1] == '/')
+        ) {
+            if (buff != "") {
+                tokens->push_back(Lexer::new_token(buff, prev+offset-buff.length(), 0));
+            }
+            std::string s (1, c); s += str[++offset];
+            tokens->push_back(Lexer::new_token(s, prev+offset-buff.length(), 0));
+            s = none;
+            skip_next = true;
         }
         // Operators
         else if (

@@ -1,5 +1,23 @@
 random :: 12.34;
-
+// comment
 12 == 13;
 12 <= 13;
-12 >= 13;
+12 >= 13; // test
+/* bock */
+/* multi
+line
+block
+*/
+
+/* some
+  /*
+    nested
+  */
+  comments
+*/
+some_value :: 13;
+/* block comment
+  /* with
+     /* no
+        /* end
+...
