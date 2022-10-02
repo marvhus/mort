@@ -13,6 +13,46 @@ but so far it is made in C++.
 It uses a custom made lexer,  
 and will in the future use LLVM to compile to native code.  
 
+** Quickstart
+
+*** Compile/Build
+compiles/builds the C++ code in `src/impl/`   
+and headers in `src/incl/`   
+to `build/debug/`  
+#+BEGIN_SRC sh
+make build_debug
+#+END_SRC
+or
+#+BEGIN_SRC sh
+make
+#+END_SRC
+
+compiles/builds the C++ code in `src/impl/`   
+and headers in `src/incl/`   
+to `build/release/`  
+#+BEGIN_SRC sh
+make build_release
+#+END_SRC
+
+*** Run
+runs the compiled binary in `build/debug/`
+specify the .mort file you want to compile by adding file= and then the file path at the end
+#+BEGIN_SRC sh
+make run file=testing.mort
+#+END_SRC
+
+runs the compiled binary in `build/release/`
+specify the .mort file you want to compile by adding file= and then the file path at the end
+#+BEGIN_SRC sh
+make run_release file=testing.mort
+#+END_SRC
+
+*** Clean
+removes the `build/` folder
+#+BEGIN_SRC sh
+make clean
+#+END_SRC
+
 ** FAQ
 
 Some frequently asked questions, and some I came up on my own, to avoid having to answer questions.  

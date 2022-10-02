@@ -1,6 +1,6 @@
-#include "lex_parser.hpp"
+#include "lexer/lex_parser.hpp"
 
-#include "lexer.hpp"
+#include "lexer/lexer.hpp"
 #include <iostream>
 #include <stdint.h>
 #include <vector>
